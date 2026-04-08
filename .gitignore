@@ -13,3 +13,4 @@ crash.log
 
 # Context
 CONTEXT.md
+.terraform.tfstate.lock.info
