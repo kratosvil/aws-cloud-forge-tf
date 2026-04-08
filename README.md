@@ -146,25 +146,13 @@ aws-cloud-forge-tf/
 | 5 | Security review — least privilege IAM | Complete |
 | 5.5 | FastAPI — ECR, Docker image, full CRUD deploy | Complete |
 | 6 | Validation, end-to-end test, destroy | Complete |
-| 7 | Route 53 — conceptual walkthrough | Pending |
+| 7 | Route 53 — conceptual walkthrough | Complete |
 
 ---
 
-## Cost Estimate
+## Cost Awareness
 
-| Component | Cost/hour |
-|-----------|-----------|
-| ALB | ~$0.008 |
-| ECS Fargate (0.25 vCPU / 0.5GB) | ~$0.012 |
-| RDS PostgreSQL db.t3.micro | ~$0.018 |
-| ElastiCache cache.t3.micro | ~$0.017 |
-| NAT Gateway | ~$0.045 |
-| Secrets Manager | ~$0.010 |
-| **Total** | **~$0.11/hour** |
-
-Estimated lab session (3-4 hours): **< $0.50 USD**
-
-> Always run `terraform destroy` after validating. NAT Gateway accrues cost per hour.
+All resources are sized for minimal cost (db.t3.micro, cache.t3.micro, 0.25 vCPU Fargate). NAT Gateway is the most expensive component — infrastructure should always be destroyed after validation to avoid ongoing charges.
 
 ---
 
