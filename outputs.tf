@@ -25,3 +25,18 @@ output "db_secret_arn" {
   description = "ARN del secret en Secrets Manager"
   value       = module.data.db_secret_arn
 }
+
+output "ecr_repository_url" {
+  description = "URL del repositorio ECR"
+  value       = module.ecr.repository_url
+}
+
+output "sns_topic_arn" {
+  description = "ARN del SNS topic de alertas"
+  value       = module.observability.sns_topic_arn
+}
+
+output "dashboard_url" {
+  description = "URL del CloudWatch Dashboard"
+  value       = module.observability.dashboard_url
+}

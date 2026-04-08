@@ -32,7 +32,7 @@ resource "aws_iam_role_policy" "ecs_secrets" {
     Statement = [{
       Effect   = "Allow"
       Action   = ["secretsmanager:GetSecretValue"]
-      Resource = "*"
+      Resource = var.db_secret_arn
     }]
   })
 }
@@ -47,6 +47,20 @@ resource "aws_iam_role" "ecs_task" {
       Effect    = "Allow"
       Principal = { Service = "ecs-tasks.amazonaws.com" }
       Action    = "sts:AssumeRole"
+    }]
+  })
+}
+
+resource "aws_iam_role_policy" "ecs_task_secrets" {
+  name = "${var.project_name}-ecs-task-secrets-policy"
+  role = aws_iam_role.ecs_task.id
+
+  policy = jsonencode({
+    Version = "2012-10-17"
+    Statement = [{
+      Effect   = "Allow"
+      Action   = ["secretsmanager:GetSecretValue"]
+      Resource = var.db_secret_arn
     }]
   })
 }
@@ -107,6 +121,30 @@ resource "aws_ecs_task_definition" "api" {
         {
           name  = "PORT"
           value = tostring(var.container_port)
+        },
+        {
+          name  = "AWS_REGION"
+          value = var.aws_region
+        },
+        {
+          name  = "REDIS_HOST"
+          value = var.redis_host
+        },
+        {
+          name  = "REDIS_PORT"
+          value = var.redis_port
+        },
+        {
+          name  = "DB_SECRET_ARN"
+          value = var.db_secret_arn
+        },
+        {
+          name  = "DB_HOST"
+          value = var.db_host
+        },
+        {
+          name  = "DB_PORT"
+          value = "5432"
         }
       ]
 

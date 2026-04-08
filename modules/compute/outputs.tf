@@ -22,3 +22,13 @@ output "ecs_task_execution_role_arn" {
 output "ecs_task_role_arn" {
   value = aws_iam_role.ecs_task.arn
 }
+
+output "alb_arn_suffix" {
+  description = "ARN suffix del ALB — usado para métricas CloudWatch"
+  value       = aws_lb.main.arn_suffix
+}
+
+output "alb_target_group_arn_suffix" {
+  description = "ARN suffix del Target Group — usado para métricas CloudWatch"
+  value       = aws_lb_target_group.api.arn_suffix
+}

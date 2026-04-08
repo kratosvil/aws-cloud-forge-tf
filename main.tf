@@ -33,6 +33,19 @@ module "compute" {
   sg_ecs_id           = module.networking.sg_ecs_id
   container_image     = var.container_image
   desired_count       = var.desired_count
+  db_secret_arn       = module.data.db_secret_arn
+  db_host             = module.data.db_host
+  redis_host          = module.data.redis_endpoint
+  redis_port          = "6379"
+}
+
+# ============================================================
+# PHASE 5.5 — ECR
+# ============================================================
+
+module "ecr" {
+  source       = "./modules/ecr"
+  project_name = var.project_name
 }
 
 # ============================================================
@@ -53,4 +66,21 @@ module "data" {
   db_username         = var.db_username
   db_password         = var.db_password
   db_name             = var.db_name
+}
+
+# ============================================================
+# PHASE 4 — OBSERVABILITY
+# ============================================================
+
+module "observability" {
+  source = "./modules/observability"
+
+  project_name                = var.project_name
+  aws_region                  = var.aws_region
+  alert_email                 = var.alert_email
+  ecs_cluster_name            = module.compute.ecs_cluster_name
+  ecs_service_name            = module.compute.ecs_service_name
+  db_instance_identifier      = module.data.db_instance_identifier
+  alb_arn_suffix              = module.compute.alb_arn_suffix
+  alb_target_group_arn_suffix = module.compute.alb_target_group_arn_suffix
 }

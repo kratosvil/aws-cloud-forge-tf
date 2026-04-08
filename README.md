@@ -102,9 +102,12 @@ Credentials never touch the codebase or repository.
 ```
 terraform.tfvars (local, gitignored)
     └── Secrets Manager (AWS, encrypted at rest)
-         └── ECS Task Definition (injected at container start)
-              └── FastAPI (reads from environment variables)
+         └── ECS Task Definition (ARN injected as env var)
+              └── FastAPI (calls boto3 at runtime → gets credentials)
+                   └── psycopg2 → RDS PostgreSQL
 ```
+
+DB host is passed as a non-sensitive env var. Only credentials (username, password, dbname) live in Secrets Manager.
 
 ---
 
@@ -125,7 +128,8 @@ aws-cloud-forge-tf/
     ├── networking/            → VPC, subnets, NAT GW, route tables, SGs
     ├── compute/               → ECS cluster, Fargate task, ALB, IAM
     ├── data/                  → RDS, ElastiCache, Secrets Manager
-    └── observability/         → CloudWatch log groups, SNS, alarms
+    ├── ecr/                   → ECR repository + lifecycle policy
+    └── observability/         → CloudWatch dashboard, SNS, alarms
 ```
 
 ---
@@ -135,12 +139,13 @@ aws-cloud-forge-tf/
 | Phase | Content | Status |
 |-------|---------|--------|
 | 0 | Design, repo, structure, README | Complete |
-| 1 | Networking — VPC, subnets, NAT GW, SGs | In Progress |
-| 2 | Compute — ECS, Fargate, ALB, IAM | Pending |
-| 3 | Data — RDS, ElastiCache, Secrets Manager | Pending |
-| 4 | Observability — CloudWatch, SNS alarms | Pending |
-| 5 | Security review — least privilege IAM | Pending |
-| 6 | Validation, end-to-end test, destroy | Pending |
+| 1 | Networking — VPC, subnets, NAT GW, SGs | Complete |
+| 2 | Compute — ECS, Fargate, ALB, IAM | Complete |
+| 3 | Data — RDS, ElastiCache, Secrets Manager | Complete |
+| 4 | Observability — CloudWatch, SNS alarms | Complete |
+| 5 | Security review — least privilege IAM | Complete |
+| 5.5 | FastAPI — ECR, Docker image, full CRUD deploy | Complete |
+| 6 | Validation, end-to-end test, destroy | Complete |
 | 7 | Route 53 — conceptual walkthrough | Pending |
 
 ---

@@ -68,3 +68,21 @@ variable "db_secret_arn" {
   type        = string
   default     = ""
 }
+
+variable "db_host" {
+  description = "Host de RDS PostgreSQL"
+  type        = string
+  default     = ""
+}
+
+variable "redis_host" {
+  description = "Host de ElastiCache Redis"
+  type        = string
+  default     = ""
+}
+
+variable "redis_port" {
+  description = "Puerto de ElastiCache Redis"
+  type        = string
+  default     = "6379"
+}

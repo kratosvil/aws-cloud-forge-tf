@@ -74,3 +74,9 @@ variable "db_password" {
   type        = string
   sensitive   = true
 }
+
+# ── Observability ─────────────────────────────────────────
+variable "alert_email" {
+  description = "Email para recibir alertas SNS"
+  type        = string
+}
