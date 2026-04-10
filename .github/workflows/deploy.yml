@@ -11,7 +11,7 @@ env:
   AWS_REGION: ${{ secrets.AWS_REGION }}
   ECR_REPOSITORY: acf-api
   ECS_CLUSTER: acf-cluster
-  ECS_SERVICE: acf-service
+  ECS_SERVICE: acf-api
   CONTAINER_NAME: acf-api
 
 jobs:
